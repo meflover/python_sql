@@ -44,10 +44,10 @@ class DatabaseSQL:
             )
             con.commit()
             
-    def getline(self, index, point, i):
+    def getline(self, index, point):
         with sq.connect(self.database) as con:
             cur = con.cursor()
-            return [row[i] for row in cur.execute(f"SELECT {point} FROM {self.table[index]}")]
+            return [row[0] for row in cur.execute(f"SELECT {point} FROM {self.table[index]}")]
 
     def delete(self, index, point, value):
         with sq.connect(self.datamess) as con:
