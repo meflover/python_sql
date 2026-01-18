@@ -1,8 +1,8 @@
 import sqlite3 as sq
 class DatabaseSQL:
-    def __init__(self):
-        self.database = "storage/form.db"
-        self.table = ["users","data"]
+    def __init__(self, dir_, tables):
+        self.database = dir_
+        self.table = tables
     
     def get(self, index, point, value, target):
         with sq.connect(self.database) as con:
@@ -44,14 +44,15 @@ class DatabaseSQL:
             )
             con.commit()
             
-    def getline(self, index, point):
+    def getline(self, index, point, i):
         with sq.connect(self.database) as con:
             cur = con.cursor()
-            return [row[0] for row in cur.execute(f"SELECT {point} FROM {self.table[index]}")]
+            return [row[i] for row in cur.execute(f"SELECT {point} FROM {self.table[index]}")]
 
     def delete(self, index, point, value):
         with sq.connect(self.datamess) as con:
             cur = con.cursor()
             cur.execute(f'DELETE FROM {self.table[index]} WHERE {point} = ?',(value,))
             con.commit()
-DSQL = DatabaseSQL()
+            
+DSQL = DatabaseSQL("storage/form.db", ["users","data"])
